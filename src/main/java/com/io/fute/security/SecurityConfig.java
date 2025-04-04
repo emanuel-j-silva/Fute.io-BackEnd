@@ -1,4 +1,4 @@
-package com.io.fute.config;
+package com.io.fute.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
