@@ -26,8 +26,8 @@ public class AppUser implements UserDetails {
     private String email;
     private String password;
 
-    public boolean passwordIsCorrect(String password){
-        return this.password.equals(password);
+    public UUID getId() {
+        return id;
     }
 
     @Override
