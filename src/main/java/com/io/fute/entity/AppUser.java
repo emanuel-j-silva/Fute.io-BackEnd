@@ -1,4 +1,4 @@
-package com.io.fute.entities;
+package com.io.fute.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
