@@ -1,9 +1,7 @@
 package com.io.fute.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,8 +12,6 @@ import java.util.UUID;
 
 @Entity
 @Table
-@NoArgsConstructor
-@AllArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class AppUser implements UserDetails {
     @Id
@@ -25,6 +21,15 @@ public class AppUser implements UserDetails {
     private String username;
     private String email;
     private String password;
+
+    public AppUser() {}
+
+    public AppUser(String name, String username, String email, String password) {
+        this.name = name;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+    }
 
     public UUID getId() {
         return id;
