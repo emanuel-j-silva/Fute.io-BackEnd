@@ -1,18 +1,18 @@
 package com.io.fute.entity;
 
 import jakarta.persistence.*;
-import lombok.EqualsAndHashCode;
+import jakarta.validation.constraints.Email;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Entity
 @Table
-@EqualsAndHashCode(of = "id")
 public class AppUser implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -22,6 +22,7 @@ public class AppUser implements UserDetails {
     @Column(unique = true)
     private String username;
 
+    @Email(message = "Formato de e-mail inválido")
     @Column(unique = true)
     private String email;
     private String password;
@@ -33,6 +34,18 @@ public class AppUser implements UserDetails {
         this.username = username;
         this.email = email;
         this.password = password;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof AppUser user)) return false;
+        return Objects.equals(id, user.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 
     public UUID getId() {
