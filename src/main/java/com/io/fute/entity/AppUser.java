@@ -18,7 +18,11 @@ public class AppUser implements UserDetails {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     private String name;
+
+    @Column(unique = true)
     private String username;
+
+    @Column(unique = true)
     private String email;
     private String password;
 

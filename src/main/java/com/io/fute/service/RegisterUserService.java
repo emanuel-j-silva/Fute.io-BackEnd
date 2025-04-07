@@ -19,8 +19,16 @@ public class RegisterUserService{
     }
 
     public AppUser register(RegisterRequest request){
+        String errors = "";
         if (userRepository.existsByUsername(request.username())){
-            throw new IllegalArgumentException("Um usuário com esse nome já existe");
+            errors += "Um usuário com esse nome já existe\n";
+        }
+        if (userRepository.existsByEmail(request.email())){
+            errors += "Um usuário com esse email já existe";
+        }
+
+        if (!errors.isEmpty()){
+            throw new IllegalArgumentException(errors);
         }
 
         AppUser user = new AppUser(request.name(), request.username(),
