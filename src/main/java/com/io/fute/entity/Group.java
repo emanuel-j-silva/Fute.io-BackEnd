@@ -35,6 +35,14 @@ public class Group {
         this.user = user;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
     public List<Player> getPlayers(){
         return players;
     }
@@ -61,5 +69,14 @@ public class Group {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    @Override
+    public String toString() {
+        return "Group{" +
+                "name='" + name + '\'' +
+                ", location='" + location + '\'' +
+                ", number of players='" + getNumberOfPlayers() + '\'' +
+                '}';
     }
 }

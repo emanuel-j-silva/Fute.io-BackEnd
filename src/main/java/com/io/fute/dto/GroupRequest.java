@@ -5,5 +5,5 @@ import jakarta.validation.constraints.NotNull;
 
 import java.util.UUID;
 
-public record GroupRequest(@NotNull UUID userId, @NotBlank String name, @NotBlank String location) {
+public record GroupRequest(@NotBlank String name, @NotBlank String location) {
 }

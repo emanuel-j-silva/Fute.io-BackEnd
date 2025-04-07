@@ -23,15 +23,13 @@ public class GroupService {
         this.userRepository = userRepository;
     }
 
-    public void createGroup(GroupRequest group){
-        AppUser user = userRepository.findById(group.userId())
-                .orElseThrow(()-> new EntityNotFoundException("Usuário não encontrado"));
+    public void createGroup(GroupRequest groupRequest, AppUser user){
 
-        if (groupRepository.existsByNameAndUser(group.name(), user)){
+        if (groupRepository.existsByNameAndUser(groupRequest.name(), user)){
             throw new IllegalArgumentException("Você já possui um grupo com esse nome");
         }
 
-        Group savedGroup = new Group(group.name(),group.location(),user);
+        Group savedGroup = new Group(groupRequest.name(),groupRequest.location(),user);
         groupRepository.save(savedGroup);
     }
 
