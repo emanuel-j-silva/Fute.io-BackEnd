@@ -39,6 +39,10 @@ public class Group {
         return players;
     }
 
+    public int getNumberOfPlayers(){
+        return players.size();
+    }
+
     public void addPlayer(Player player) {
         players.add(player);
     }
