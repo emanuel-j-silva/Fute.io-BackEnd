@@ -1,4 +1,4 @@
-package com.io.fute.dto;
+package com.io.fute.dto.auth;
 
 import jakarta.validation.constraints.NotBlank;
 

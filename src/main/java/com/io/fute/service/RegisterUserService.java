@@ -1,6 +1,6 @@
 package com.io.fute.service;
 
-import com.io.fute.dto.RegisterRequest;
+import com.io.fute.dto.auth.RegisterRequest;
 import com.io.fute.entity.AppUser;
 import com.io.fute.repository.AppUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

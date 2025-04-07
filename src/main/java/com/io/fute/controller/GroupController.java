@@ -1,7 +1,7 @@
 package com.io.fute.controller;
 
-import com.io.fute.dto.GroupInfo;
-import com.io.fute.dto.GroupRequest;
+import com.io.fute.dto.group.GroupInfo;
+import com.io.fute.dto.group.GroupRequest;
 import com.io.fute.entity.AppUser;
 import com.io.fute.entity.Group;
 import com.io.fute.service.GroupService;

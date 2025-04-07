@@ -1,7 +1,7 @@
 package com.io.fute.controller;
 
-import com.io.fute.dto.LoginRequest;
-import com.io.fute.dto.RegisterRequest;
+import com.io.fute.dto.auth.LoginRequest;
+import com.io.fute.dto.auth.RegisterRequest;
 import com.io.fute.entity.AppUser;
 import com.io.fute.security.TokenService;
 import com.io.fute.service.RegisterUserService;

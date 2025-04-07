@@ -1,11 +1,10 @@
 package com.io.fute.service;
 
-import com.io.fute.dto.GroupRequest;
+import com.io.fute.dto.group.GroupRequest;
 import com.io.fute.entity.AppUser;
 import com.io.fute.entity.Group;
 import com.io.fute.repository.AppUserRepository;
 import com.io.fute.repository.GroupRepository;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
