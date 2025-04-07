@@ -1,10 +1,8 @@
 package com.io.fute.service;
 
-import com.io.fute.dto.LoginRequest;
 import com.io.fute.dto.RegisterRequest;
 import com.io.fute.entity.AppUser;
 import com.io.fute.repository.AppUserRepository;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
