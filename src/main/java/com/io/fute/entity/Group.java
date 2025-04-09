@@ -29,6 +29,8 @@ public class Group {
     @JoinColumn(name = "user_id", nullable = false)
     private AppUser user;
 
+    public Group(){}
+
     public Group(String name, String location, AppUser user) {
         this.name = name;
         this.location = location;
