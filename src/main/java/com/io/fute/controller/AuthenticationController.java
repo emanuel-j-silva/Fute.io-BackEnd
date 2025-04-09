@@ -2,6 +2,7 @@ package com.io.fute.controller;
 
 import com.io.fute.dto.auth.LoginRequest;
 import com.io.fute.dto.auth.RegisterRequest;
+import com.io.fute.dto.auth.TokenDTO;
 import com.io.fute.entity.AppUser;
 import com.io.fute.security.TokenService;
 import com.io.fute.service.RegisterUserService;
@@ -32,14 +33,14 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody @Valid LoginRequest request){
+    public ResponseEntity<Object> login(@RequestBody @Valid LoginRequest request){
         try{
             var token = new UsernamePasswordAuthenticationToken(request.email(), request.password());
             var authentication = authenticationManager.authenticate(token);
 
             AppUser user = (AppUser) authentication.getPrincipal();
             var tokenJWT = tokenService.generateToken(user);
-            return ResponseEntity.status(HttpStatus.OK).body(tokenJWT);
+            return ResponseEntity.status(HttpStatus.OK).body(new TokenDTO(tokenJWT));
         }catch (Exception e){
             System.out.println(e);
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciais inválidas");
