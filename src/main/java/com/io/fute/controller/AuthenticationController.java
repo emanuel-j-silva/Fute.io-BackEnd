@@ -34,7 +34,7 @@ public class AuthenticationController {
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody @Valid LoginRequest request){
         try{
-            var token = new UsernamePasswordAuthenticationToken(request.username(), request.password());
+            var token = new UsernamePasswordAuthenticationToken(request.email(), request.password());
             var authentication = authenticationManager.authenticate(token);
 
             AppUser user = (AppUser) authentication.getPrincipal();
