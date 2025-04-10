@@ -15,8 +15,8 @@ import java.util.UUID;
 
 @Service
 public class GroupService {
-    private GroupRepository groupRepository;
-    private AppUserRepository userRepository;
+    private final GroupRepository groupRepository;
+    private final AppUserRepository userRepository;
 
     @Autowired
     public GroupService(GroupRepository groupRepository, AppUserRepository userRepository) {

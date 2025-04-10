@@ -21,9 +21,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/auth")
 public class AuthenticationController {
 
-    private TokenService tokenService;
-    private AuthenticationManager authenticationManager;
-    private RegisterUserService registerUser;
+    private final TokenService tokenService;
+    private final AuthenticationManager authenticationManager;
+    private final RegisterUserService registerUser;
 
     @Autowired
     public AuthenticationController(TokenService tokenService, AuthenticationManager authenticationManager, RegisterUserService registerUser) {
