@@ -4,7 +4,9 @@ import com.io.fute.dto.player.PlayerInfo;
 import com.io.fute.dto.player.PlayerRequest;
 import com.io.fute.entity.AppUser;
 import com.io.fute.entity.Player;
+import com.io.fute.repository.AppUserRepository;
 import com.io.fute.repository.PlayerRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,13 +16,18 @@ import java.util.UUID;
 @Service
 public class PlayerService {
     private PlayerRepository playerRepository;
+    private AppUserRepository userRepository;
 
     @Autowired
-    public PlayerService(PlayerRepository playerRepository) {
+    public PlayerService(PlayerRepository playerRepository, AppUserRepository userRepository) {
         this.playerRepository = playerRepository;
+        this.userRepository = userRepository;
     }
 
-    public void createPlayer(PlayerRequest playerRequest, AppUser user){
+    public void createPlayer(PlayerRequest playerRequest, UUID userID){
+        AppUser user = userRepository.findById(userID)
+                .orElseThrow(()-> new EntityNotFoundException("Usuário não encontrado!"));
+
         String errors = "";
         if (playerRepository.existsByNameAndUser(playerRequest.name(), user)){
             errors += "Já existe um jogador com este nome\n";

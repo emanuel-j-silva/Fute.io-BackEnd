@@ -6,6 +6,7 @@ import com.io.fute.entity.AppUser;
 import com.io.fute.entity.Group;
 import com.io.fute.repository.AppUserRepository;
 import com.io.fute.repository.GroupRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,8 +24,9 @@ public class GroupService {
         this.userRepository = userRepository;
     }
 
-    public void createGroup(GroupRequest groupRequest, AppUser user){
-
+    public void createGroup(GroupRequest groupRequest, UUID userId){
+        AppUser user = userRepository.findById(userId)
+                .orElseThrow(()-> new EntityNotFoundException("Usuário não encontrado"));
         if (groupRepository.existsByNameAndUser(groupRequest.name(), user)){
             throw new IllegalArgumentException("Você já possui um grupo com esse nome");
         }
