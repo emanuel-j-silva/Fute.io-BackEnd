@@ -1,5 +1,6 @@
 package com.io.fute.service;
 
+import com.io.fute.dto.group.GroupInfo;
 import com.io.fute.dto.group.GroupRequest;
 import com.io.fute.entity.AppUser;
 import com.io.fute.entity.Group;
@@ -32,7 +33,9 @@ public class GroupService {
         groupRepository.save(savedGroup);
     }
 
-    public List<Group> fetchAllGroupsByUser(UUID userId){
-        return groupRepository.findAllByUserId(userId);
+    public List<GroupInfo> fetchAllGroupsByUser(UUID userId){
+        return groupRepository.findAllByUserId(userId).stream()
+                .map(group -> new GroupInfo(group.getName(),group.getLocation(), group.getNumberOfPlayers()))
+                .toList();
     }
 }

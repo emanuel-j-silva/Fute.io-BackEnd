@@ -3,7 +3,6 @@ package com.io.fute.controller;
 import com.io.fute.dto.group.GroupInfo;
 import com.io.fute.dto.group.GroupRequest;
 import com.io.fute.entity.AppUser;
-import com.io.fute.entity.Group;
 import com.io.fute.service.GroupService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,12 +38,7 @@ public class GroupController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         AppUser user = (AppUser) authentication.getPrincipal();
 
-        List<Group> groups = groupService.fetchAllGroupsByUser(user.getId());
-
-        List<GroupInfo> groupInfos = groups.stream()
-                .map(group -> new GroupInfo(group.getName(),group.getLocation(), group.getNumberOfPlayers()))
-                .toList();
-
-        return ResponseEntity.status(HttpStatus.OK).body(groupInfos);
+        List<GroupInfo> groups = groupService.fetchAllGroupsByUser(user.getId());
+        return ResponseEntity.status(HttpStatus.OK).body(groups);
     }
 }
