@@ -2,10 +2,7 @@ package com.io.fute.entity;
 
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Table(name = "app_group")
@@ -23,7 +20,7 @@ public class Group {
             joinColumns = @JoinColumn(name = "group_id"),
             inverseJoinColumns = @JoinColumn(name = "player_id")
     )
-    private final List<Player> players = new ArrayList<>();
+    private final Set<Player> players = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
@@ -45,7 +42,7 @@ public class Group {
         return location;
     }
 
-    public List<Player> getPlayers(){
+    public Set<Player> getPlayers(){
         return players;
     }
 
