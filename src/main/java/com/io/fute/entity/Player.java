@@ -18,13 +18,36 @@ public class Player {
     @Max(value = 100)
     private byte overall;
     private String urlPhoto;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_id", nullable = false)
     private AppUser user;
+
+    public Player(){}
+
+    public Player(String name, byte overall, AppUser user) {
+        this.name = name;
+        this.overall = overall;
+        this.user = user;
+    }
 
     public Player(String name, byte overall, String urlPhoto, AppUser user) {
         this.name = name;
         this.overall = overall;
         this.urlPhoto = urlPhoto;
         this.user = user;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public byte getOverall() {
+        return overall;
+    }
+
+    public String getUrlPhoto() {
+        return urlPhoto;
     }
 
     public void changeName(String name){
