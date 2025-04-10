@@ -21,6 +21,12 @@ public class Team {
     )
     private List<Player> players = new ArrayList<>();
 
+    public Team(){}
+
+    public Team(String numeralName) {
+        this.numeralName = numeralName;
+    }
+
     public int numberOfPlayers(){
         return players.size();
     }
