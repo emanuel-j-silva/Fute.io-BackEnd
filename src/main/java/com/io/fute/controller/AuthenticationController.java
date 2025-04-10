@@ -3,6 +3,7 @@ package com.io.fute.controller;
 import com.io.fute.dto.auth.LoginRequest;
 import com.io.fute.dto.auth.RegisterRequest;
 import com.io.fute.dto.auth.TokenDTO;
+import com.io.fute.dto.response.ResponseDTO;
 import com.io.fute.entity.AppUser;
 import com.io.fute.security.TokenService;
 import com.io.fute.service.RegisterUserService;
@@ -43,7 +44,7 @@ public class AuthenticationController {
             return ResponseEntity.status(HttpStatus.OK).body(new TokenDTO(tokenJWT));
         }catch (Exception e){
             System.out.println(e);
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciais inválidas");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ResponseDTO("Credenciais inválidas"));
         }
     }
 

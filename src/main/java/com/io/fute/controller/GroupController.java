@@ -2,6 +2,7 @@ package com.io.fute.controller;
 
 import com.io.fute.dto.group.GroupInfo;
 import com.io.fute.dto.group.GroupRequest;
+import com.io.fute.dto.response.ResponseDTO;
 import com.io.fute.service.GroupService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,11 +25,11 @@ public class GroupController {
     }
 
     @PostMapping
-    public ResponseEntity<String> createGroup(@RequestBody @Valid GroupRequest request,
+    public ResponseEntity<ResponseDTO> createGroup(@RequestBody @Valid GroupRequest request,
                                               @AuthenticationPrincipal(expression = "id") UUID userId){
 
         groupService.createGroup(request, userId);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Grupo criado com sucesso");
+        return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseDTO("Grupo criado com sucesso"));
     }
 
     @GetMapping

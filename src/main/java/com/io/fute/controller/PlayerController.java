@@ -2,6 +2,7 @@ package com.io.fute.controller;
 
 import com.io.fute.dto.player.PlayerInfo;
 import com.io.fute.dto.player.PlayerRequest;
+import com.io.fute.dto.response.ResponseDTO;
 import com.io.fute.service.PlayerService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,11 +25,11 @@ public class PlayerController {
     }
 
     @PostMapping
-    public ResponseEntity<String> savePlayer(@RequestBody @Valid PlayerRequest request,
-                                        @AuthenticationPrincipal(expression = "id")UUID userId){
+    public ResponseEntity<ResponseDTO> savePlayer(@RequestBody @Valid PlayerRequest request,
+                                                  @AuthenticationPrincipal(expression = "id")UUID userId){
 
         playerService.createPlayer(request, userId);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Jogador adicionado com sucesso!");
+        return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseDTO("Jogador adicionado com sucesso!"));
     }
 
     @GetMapping
