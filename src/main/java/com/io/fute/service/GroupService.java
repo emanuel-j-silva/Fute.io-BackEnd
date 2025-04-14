@@ -4,8 +4,10 @@ import com.io.fute.dto.group.GroupInfo;
 import com.io.fute.dto.group.GroupRequest;
 import com.io.fute.entity.AppUser;
 import com.io.fute.entity.Group;
+import com.io.fute.entity.Player;
 import com.io.fute.repository.AppUserRepository;
 import com.io.fute.repository.GroupRepository;
+import com.io.fute.repository.PlayerRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,11 +19,13 @@ import java.util.UUID;
 public class GroupService {
     private final GroupRepository groupRepository;
     private final AppUserRepository userRepository;
+    private final PlayerRepository playerRepository;
 
     @Autowired
-    public GroupService(GroupRepository groupRepository, AppUserRepository userRepository) {
+    public GroupService(GroupRepository groupRepository, AppUserRepository userRepository, PlayerRepository playerRepository) {
         this.groupRepository = groupRepository;
         this.userRepository = userRepository;
+        this.playerRepository = playerRepository;
     }
 
     public void createGroup(GroupRequest groupRequest, UUID userId){
@@ -39,5 +43,28 @@ public class GroupService {
         return groupRepository.findAllByUserId(userId).stream()
                 .map(group -> new GroupInfo(group.getName(),group.getLocation(), group.getNumberOfPlayers()))
                 .toList();
+    }
+
+    public void addPlayerToGroup(UUID groupId, Long playerId, UUID userId){
+        Group group = groupRepository.findById(groupId)
+                .orElseThrow(()-> new EntityNotFoundException("Grupo não encontrado."));
+
+        if (!group.getUser().getId().equals(userId)){
+            throw new IllegalArgumentException("Você não tem permissão para modificar esse grupo");
+        }
+
+        Player player = playerRepository.findById(playerId)
+                .orElseThrow(()-> new EntityNotFoundException("Jogador não encontrado."));
+
+        if (player.getUser().getId().equals(userId)){
+            throw new IllegalArgumentException("Você não tem permissão para acessar esse jogador");
+        }
+
+        if (group.getPlayers().contains(player)){
+            throw new IllegalArgumentException("Esse jogador já pertence a este grupo");
+        }
+
+        group.addPlayer(player);
+        groupRepository.save(group);
     }
 }

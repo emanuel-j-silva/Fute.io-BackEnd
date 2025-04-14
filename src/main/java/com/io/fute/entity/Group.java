@@ -38,6 +38,10 @@ public class Group {
         return name;
     }
 
+    public AppUser getUser() {
+        return user;
+    }
+
     public String getLocation() {
         return location;
     }

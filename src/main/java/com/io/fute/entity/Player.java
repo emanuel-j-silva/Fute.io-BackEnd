@@ -42,6 +42,10 @@ public class Player {
         return name;
     }
 
+    public AppUser getUser() {
+        return user;
+    }
+
     public byte getOverall() {
         return overall;
     }
