@@ -37,4 +37,14 @@ public class GroupController {
         List<GroupInfo> groups = groupService.fetchAllGroupsByUser(userId);
         return ResponseEntity.status(HttpStatus.OK).body(groups);
     }
+
+    @PostMapping("/${groupId}/players")
+    public ResponseEntity<ResponseDTO> associatePlayerToGroup(
+            @PathVariable(value = "groupId") UUID groupId, @RequestParam(name = "player") Long playerId,
+            @AuthenticationPrincipal(expression = "id") UUID userId){
+
+        groupService.addPlayerToGroup(groupId, playerId, userId);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new ResponseDTO("Jogador adicionado ao grupo com sucesso"));
+    }
 }
