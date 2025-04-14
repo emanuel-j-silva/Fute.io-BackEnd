@@ -46,19 +46,8 @@ public class GroupService {
     }
 
     public void addPlayerToGroup(UUID groupId, Long playerId, UUID userId){
-        Group group = groupRepository.findById(groupId)
-                .orElseThrow(()-> new EntityNotFoundException("Grupo não encontrado."));
-
-        if (!group.getUser().getId().equals(userId)){
-            throw new IllegalArgumentException("Você não tem permissão para modificar esse grupo");
-        }
-
-        Player player = playerRepository.findById(playerId)
-                .orElseThrow(()-> new EntityNotFoundException("Jogador não encontrado."));
-
-        if (player.getUser().getId().equals(userId)){
-            throw new IllegalArgumentException("Você não tem permissão para acessar esse jogador");
-        }
+        Group group = fetchAndValidateGroup(groupId, userId);
+        Player player = fetchAndValidatePlayer(playerId, userId);
 
         if (group.getPlayers().contains(player)){
             throw new IllegalArgumentException("Esse jogador já pertence a este grupo");
@@ -66,5 +55,26 @@ public class GroupService {
 
         group.addPlayer(player);
         groupRepository.save(group);
+    }
+
+    private Group fetchAndValidateGroup(UUID groupId, UUID userId){
+        Group group = groupRepository.findById(groupId)
+                .orElseThrow(()-> new EntityNotFoundException("Grupo não encontrado."));
+
+        if (!group.getUser().getId().equals(userId)){
+            throw new IllegalArgumentException("Você não tem permissão para modificar esse grupo");
+        }
+
+        return group;
+    }
+    private Player fetchAndValidatePlayer(Long playerId, UUID userId){
+        Player player = playerRepository.findById(playerId)
+                .orElseThrow(()-> new EntityNotFoundException("Jogador não encontrado."));
+
+        if (!player.getUser().getId().equals(userId)){
+            throw new IllegalArgumentException("Você não tem permissão para acessar esse jogador");
+        }
+
+        return player;
     }
 }
