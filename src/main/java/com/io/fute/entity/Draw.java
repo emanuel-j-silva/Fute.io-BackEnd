@@ -18,7 +18,7 @@ public class Draw {
     @JoinColumn(name = "group_id", nullable = false)
     private Group group;
 
-    @OneToMany(mappedBy = "draw_id", orphanRemoval = true)
+    @OneToMany(mappedBy = "draw", orphanRemoval = true)
     private Set<Team> teams;
 
     public Draw(){
