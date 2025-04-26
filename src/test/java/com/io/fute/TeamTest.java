@@ -65,4 +65,12 @@ public class TeamTest {
         assertThat(team.numberOfPlayers()).isEqualTo(0);
     }
 
+    @Test
+    @DisplayName("Should throw exception when trying to add null list to the players list")
+    void shouldThrowWhenAddNullPlayersList(){
+
+        assertThatThrownBy(()-> team.addPlayers(null)).isInstanceOf(IllegalArgumentException.class);
+        assertThat(team.numberOfPlayers()).isEqualTo(0);
+    }
+
 }
