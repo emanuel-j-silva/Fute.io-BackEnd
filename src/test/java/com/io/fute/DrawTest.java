@@ -1,17 +1,22 @@
 package com.io.fute;
 
+import com.io.fute.entity.AppUser;
 import com.io.fute.entity.Draw;
 import com.io.fute.entity.Player;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
 public class DrawTest {
+
+    @Mock
+    private AppUser user;
 
     private Draw draw;
 
@@ -49,6 +54,32 @@ public class DrawTest {
         assertThatThrownBy(()-> draw.perform(players,2))
                 .isInstanceOf(IllegalArgumentException.class);
 
+    }
+
+    @Test
+    @DisplayName("Should throw exception when number of teams is negative or zero")
+    void shouldThrowNegativeNumTeams(){
+        var player = new Player();
+        List<Player> players = new ArrayList<>();
+
+        players.add(player);
+
+        assertThatThrownBy(()-> draw.perform(players, -1))
+                .isInstanceOf(IllegalArgumentException.class);
+
+        assertThatThrownBy(()-> draw.perform(players, 0))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    @DisplayName("Should throw exception when number of teams is less than two")
+    void shouldThrowLessTwoNumTeams(){
+        var player = new Player();
+        List<Player> players = new ArrayList<>();
+
+        players.add(player);
+        assertThatThrownBy(()-> draw.perform(players, 1))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
 }
