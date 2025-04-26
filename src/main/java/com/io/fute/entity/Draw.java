@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -39,4 +40,9 @@ public class Draw {
         return teams;
     }
 
+    public void perform(List<Player> players, int numberOfTeams) {
+        if (players == null || players.contains(null)) {
+            throw new IllegalArgumentException("Lista de jogadores inválida.");
+        }
+    }
 }
