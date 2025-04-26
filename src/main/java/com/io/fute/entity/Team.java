@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table
@@ -39,12 +40,15 @@ public class Team {
     }
 
     public void addPlayer(Player player){
+        if (player == null) throw new IllegalArgumentException("Jogador não pode ser nulo");
         if (players.contains(player)) throw new IllegalArgumentException("Esse jogador já pertence ao time.");
         this.players.add(player);
     }
 
     public void addPlayers(List<Player> players){
+        if (players == null) throw new IllegalArgumentException("Lista não pode ser nula");
         for (Player player : players) {
+            if (player == null) throw new IllegalArgumentException("Jogador não pode ser nulo");
             if (this.players.contains(player)) {
                 throw new IllegalArgumentException("Esse jogador já pertence ao time.");
             }
