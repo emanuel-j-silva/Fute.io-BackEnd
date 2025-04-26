@@ -38,6 +38,19 @@ public class TeamTest {
     }
 
     @Test
+    @DisplayName("Average overall should be 25.5")
+    void avgOverShouldBeNumberWithDecimalPlace(){
+        Player player1 = new Player("Player 1", (byte)25, user);
+        Player player2 = new Player("Player 2", (byte)26, user);
+        List<Player> players = List.of(player1, player2);
+
+        team.addPlayers(players);
+
+        assertThat(team.averageOverall()).isEqualTo(25.5);
+
+    }
+
+    @Test
     @DisplayName("Should throw exception when average calc is invoked with empty players list")
     void shouldThrowAvgWithEmptyPlayersList(){
 
