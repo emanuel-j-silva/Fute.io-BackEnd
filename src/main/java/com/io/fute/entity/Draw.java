@@ -41,8 +41,12 @@ public class Draw {
     }
 
     public void perform(List<Player> players, int numberOfTeams) {
-        if (players == null || players.contains(null)) {
-            throw new IllegalArgumentException("Lista de jogadores inválida.");
+        if (players == null) throw new IllegalArgumentException("Lista de jogadores não pode ser nula.");
+
+        for (Player p:players){
+            if (p == null) throw new IllegalArgumentException("Jogador não pode ser nulo");
         }
+
+        if (numberOfTeams < 2) throw new IllegalArgumentException("Número de times inválido");
     }
 }
