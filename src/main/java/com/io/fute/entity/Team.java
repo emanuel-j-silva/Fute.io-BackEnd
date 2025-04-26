@@ -38,4 +38,18 @@ public class Team {
                 .average().orElseThrow(()-> new IllegalArgumentException("Erro ao calcular média"));
     }
 
+    public void addPlayer(Player player){
+        if (players.contains(player)) throw new IllegalArgumentException("Esse jogador já pertence ao time.");
+        this.players.add(player);
+    }
+
+    public void addPlayers(List<Player> players){
+        for (Player player : players) {
+            if (this.players.contains(player)) {
+                throw new IllegalArgumentException("Esse jogador já pertence ao time.");
+            }
+        }
+        this.players.addAll(players);
+    }
+
 }
