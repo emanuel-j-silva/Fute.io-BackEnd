@@ -3,6 +3,7 @@ package com.io.fute.entity;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -23,9 +24,18 @@ public class Draw {
 
     public Draw(){
         this.date = LocalDateTime.now();
+        this.teams = new HashSet<>();
+    }
+
+    public Draw(Group group){
+        if (group == null) throw new EntityNotFoundException("Grupo não pode ser nulo");
+        this.group = group;
+        this.date = LocalDateTime.now();
+        this.teams = new HashSet<>();
     }
 
     public Set<Team> fetchTeams(){
+        if (teams.isEmpty()) throw new IllegalStateException("O sorteio ainda não foi realizado.");
         return teams;
     }
 
