@@ -42,19 +42,23 @@ public class Draw {
     }
 
     public void perform(List<Player> players, int numberOfTeams) {
+        performInputValidator(players, numberOfTeams);
+
+        for(int i=0; i < numberOfTeams; i++){
+            teams.add(new Team());
+        }
+
+    }
+
+    private static void performInputValidator(List<Player> players, int numberOfTeams) {
         if (players == null) throw new IllegalArgumentException("Lista de jogadores não pode ser nula.");
 
-        for (Player p:players){
+        for (Player p: players){
             if (p == null) throw new IllegalArgumentException("Jogador não pode ser nulo");
         }
 
         if (numberOfTeams < 2 || players.size() <= numberOfTeams) {
             throw new IllegalArgumentException("Número de times inválido");
         }
-
-        for(int i=0; i < numberOfTeams; i++){
-            teams.add(new Team());
-        }
-
     }
 }
