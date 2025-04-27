@@ -82,11 +82,11 @@ public class Player {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Player player)) return false;
-        return Objects.equals(id, player.id) && Objects.equals(user, player.user);
+        return Objects.equals(id, player.id) && Objects.equals(name, player.name) && Objects.equals(user, player.user);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, user);
+        return Objects.hash(id, name, user);
     }
 }
