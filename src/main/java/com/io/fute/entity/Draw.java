@@ -52,5 +52,9 @@ public class Draw {
             throw new IllegalArgumentException("Número de times inválido");
         }
 
+        for(int i=0; i < numberOfTeams; i++){
+            teams.add(new Team());
+        }
+
     }
 }
