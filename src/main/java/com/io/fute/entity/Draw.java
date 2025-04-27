@@ -47,6 +47,9 @@ public class Draw {
             if (p == null) throw new IllegalArgumentException("Jogador não pode ser nulo");
         }
 
-        if (numberOfTeams < 2) throw new IllegalArgumentException("Número de times inválido");
+        if (numberOfTeams < 2 || players.size() <= numberOfTeams) {
+            throw new IllegalArgumentException("Número de times inválido");
+        }
+
     }
 }
