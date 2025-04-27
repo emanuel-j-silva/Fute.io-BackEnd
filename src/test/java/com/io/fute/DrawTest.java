@@ -1,13 +1,11 @@
 package com.io.fute;
 
-import com.io.fute.entity.AppUser;
 import com.io.fute.entity.Draw;
 import com.io.fute.entity.Player;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -92,6 +90,20 @@ public class DrawTest {
 
         assertThatThrownBy(()-> draw.perform(players, 3))
                 .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    @DisplayName("Should form teams correctly with the indicated value")
+    void shouldFormTeamsCorrectQuantity(){
+        int numTeams = 2;
+        Player player1 = new Player();
+        Player player2 = new Player();
+        Player player3 = new Player();
+        Player player4 = new Player();
+        List<Player> players = List.of(player1, player2, player3, player4);
+
+        draw.perform(players, numTeams);
+        assertThat(draw.fetchTeams().size()).isEqualTo(numTeams);
     }
 
 }
