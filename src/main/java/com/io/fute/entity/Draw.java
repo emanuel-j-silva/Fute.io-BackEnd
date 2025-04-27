@@ -3,6 +3,7 @@ package com.io.fute.entity;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -21,21 +22,21 @@ public class Draw {
     private Group group;
 
     @OneToMany(mappedBy = "draw", orphanRemoval = true)
-    private Set<Team> teams;
+    private List<Team> teams;
 
     public Draw(){
         this.date = LocalDateTime.now();
-        this.teams = new HashSet<>();
+        this.teams = new ArrayList<>();
     }
 
     public Draw(Group group){
         if (group == null) throw new EntityNotFoundException("Grupo não pode ser nulo");
         this.group = group;
         this.date = LocalDateTime.now();
-        this.teams = new HashSet<>();
+        this.teams = new ArrayList<>();
     }
 
-    public Set<Team> fetchTeams(){
+    public List<Team> fetchTeams(){
         if (teams.isEmpty()) throw new IllegalStateException("O sorteio ainda não foi realizado.");
         return teams;
     }
