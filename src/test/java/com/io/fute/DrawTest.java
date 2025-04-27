@@ -15,9 +15,6 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.*;
 public class DrawTest {
 
-    @Mock
-    private AppUser user;
-
     private Draw draw;
 
     @BeforeEach
@@ -79,6 +76,21 @@ public class DrawTest {
 
         players.add(player);
         assertThatThrownBy(()-> draw.perform(players, 1))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    @DisplayName("Should throw exception when number of players is less or equal than teams number")
+    void shouldThrowNumPlayersLessOrEqualTeams(){
+        Player player1 = new Player();
+        Player player2 = new Player();
+        Player player3 = new Player();
+        List<Player> players = List.of(player1, player2, player3);
+
+        assertThatThrownBy(()-> draw.perform(players, 4))
+                .isInstanceOf(IllegalArgumentException.class);
+
+        assertThatThrownBy(()-> draw.perform(players, 3))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
