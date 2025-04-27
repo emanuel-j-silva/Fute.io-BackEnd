@@ -1,17 +1,23 @@
 package com.io.fute;
 
-import com.io.fute.entity.Draw;
-import com.io.fute.entity.Player;
+import com.io.fute.entity.*;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.OptionalInt;
+
 
 import static org.assertj.core.api.Assertions.*;
 public class DrawTest {
+
+    private final AppUser user = new AppUser();
+
+    private Group group = new Group();
 
     private Draw draw;
 
@@ -96,14 +102,52 @@ public class DrawTest {
     @DisplayName("Should form teams correctly with the indicated value")
     void shouldFormTeamsCorrectQuantity(){
         int numTeams = 2;
-        Player player1 = new Player();
-        Player player2 = new Player();
-        Player player3 = new Player();
-        Player player4 = new Player();
+        Player player1 = new Player("Player 1", (byte) 50, user);
+        Player player2 = new Player("Player 2", (byte) 50, user);
+        Player player3 = new Player("Player 3", (byte) 50, user);
+        Player player4 = new Player("Player 4", (byte) 50, user);
         List<Player> players = List.of(player1, player2, player3, player4);
 
         draw.perform(players, numTeams);
         assertThat(draw.fetchTeams().size()).isEqualTo(numTeams);
     }
 
+    @Test
+    @DisplayName("Should form teams with equal number of players when the quantity allows")
+    void shouldFormTeamsEqualNumOfPlayers(){
+        Player player1 = new Player("Player 1", (byte) 50, user);
+        Player player2 = new Player("Player 2", (byte) 50, user);
+        Player player3 = new Player("Player 3", (byte) 50, user);
+        Player player4 = new Player("Player 4", (byte) 50, user);
+        List<Player> players = List.of(player1, player2, player3, player4);
+
+        draw.perform(players, 2);
+
+        boolean hasUniqueValue = draw.fetchTeams().stream().map(Team::numberOfPlayers).distinct().count() <= 1;
+        assertThat(hasUniqueValue).isTrue();
+    }
+
+    @Test
+    @DisplayName("Should form teams with a difference of at most 1 between the number of players")
+    void shouldFormTeamsBalancedNumOfPlayers(){
+        Player player1 = new Player("Player 1", (byte) 50, user);
+        Player player2 = new Player("Player 2", (byte) 50, user);
+        Player player3 = new Player("Player 3", (byte) 50, user);
+        Player player4 = new Player("Player 4", (byte) 50, user);
+        Player player5 = new Player("Player 5", (byte) 50, user);
+        List<Player> players = List.of(player1, player2, player3, player4, player5);
+
+        draw.perform(players, 2);
+
+        List<Team> teams = draw.fetchTeams();
+        OptionalInt max = teams.stream().mapToInt(Team::numberOfPlayers).max();
+        OptionalInt min = teams.stream().mapToInt(Team::numberOfPlayers).min();
+
+        boolean hasAcceptableDifference = false;
+        if (max.isPresent() && min.isPresent()){
+            hasAcceptableDifference = (max.getAsInt() - min.getAsInt()) <= 1;
+        }
+
+        assertThat(hasAcceptableDifference).isTrue();
+    }
 }
