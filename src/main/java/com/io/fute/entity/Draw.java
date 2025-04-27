@@ -4,9 +4,7 @@ import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table
@@ -46,6 +44,10 @@ public class Draw {
 
         for(int i=0; i < numberOfTeams; i++){
             teams.add(new Team());
+        }
+        for(int i=0; i < players.size(); i++){
+            int indexTeam = i % numberOfTeams;
+            teams.get(indexTeam).addPlayer(players.get(i));
         }
 
     }
