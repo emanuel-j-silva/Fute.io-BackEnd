@@ -59,4 +59,8 @@ public class Team {
         this.players.addAll(players);
     }
 
+    public void removeAllPlayers(){
+        players.clear();
+    }
+
 }
