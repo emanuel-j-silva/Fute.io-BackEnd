@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
 @Table
@@ -26,6 +25,10 @@ public class Team {
 
     public Team(String numeralName) {
         this.numeralName = numeralName;
+    }
+
+    public String getNumeralName() {
+        return numeralName;
     }
 
     public int numberOfPlayers(){

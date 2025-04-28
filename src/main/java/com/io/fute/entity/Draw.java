@@ -41,9 +41,10 @@ public class Draw {
 
     public void perform(List<Player> players, int numberOfTeams) {
         performInputValidator(players, numberOfTeams);
+        teams.clear();
 
         for(int i=0; i < numberOfTeams; i++){
-            teams.add(new Team());
+            teams.add(new Team(String.valueOf(i+1)));
         }
         for(int i=0; i < players.size(); i++){
             int indexTeam = i % numberOfTeams;
