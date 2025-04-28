@@ -104,7 +104,7 @@ public class DrawTest {
         Player player2 = new Player("Player 2", (byte) 50, user);
         Player player3 = new Player("Player 3", (byte) 50, user);
         Player player4 = new Player("Player 4", (byte) 50, user);
-        List<Player> players = List.of(player1, player2, player3, player4);
+        List<Player> players = new ArrayList<>(List.of(player1, player2, player3, player4));
 
         draw.perform(players, numTeams);
         assertThat(draw.fetchTeams().size()).isEqualTo(numTeams);
@@ -117,7 +117,7 @@ public class DrawTest {
         Player player2 = new Player("Player 2", (byte) 50, user);
         Player player3 = new Player("Player 3", (byte) 50, user);
         Player player4 = new Player("Player 4", (byte) 50, user);
-        List<Player> players = List.of(player1, player2, player3, player4);
+        List<Player> players = new ArrayList<>(List.of(player1, player2, player3, player4));
 
         draw.perform(players, 2);
 
@@ -133,7 +133,7 @@ public class DrawTest {
         Player player3 = new Player("Player 3", (byte) 50, user);
         Player player4 = new Player("Player 4", (byte) 50, user);
         Player player5 = new Player("Player 5", (byte) 50, user);
-        List<Player> players = List.of(player1, player2, player3, player4, player5);
+        List<Player> players = new ArrayList<>(List.of(player1, player2, player3, player4, player5));
 
         draw.perform(players, 2);
 
@@ -156,7 +156,7 @@ public class DrawTest {
         Player player2 = new Player("Player 2", (byte) 50, user);
         Player player3 = new Player("Player 3", (byte) 50, user);
         Player player4 = new Player("Player 4", (byte) 50, user);
-        List<Player> players = List.of(player1, player2, player3, player4);
+        List<Player> players = new ArrayList<>(List.of(player1, player2, player3, player4));
 
         draw.perform(players, 2);
         List<Team> teams = draw.fetchTeams();
@@ -177,8 +177,9 @@ public class DrawTest {
         Player player2 = new Player("Player 2", (byte) 10, user);
         Player player3 = new Player("Player 3", (byte) 100, user);
 
-        List<Player> players1 = List.of(player1, player2, player3);
-        draw.perform(players1, 2);
+        List<Player> players = new ArrayList<>(List.of(player1, player2, player3));
+        draw.perform(players, 2);
+
         List<Team> teams1 = draw.fetchTeams();
         OptionalDouble max = teams1.stream().mapToDouble(Team::averageOverall).max();
         OptionalDouble min = teams1.stream().mapToDouble(Team::averageOverall).min();
