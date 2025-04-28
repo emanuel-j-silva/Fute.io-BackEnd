@@ -7,9 +7,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.OptionalInt;
+import java.util.*;
 
 
 import static org.assertj.core.api.Assertions.*;
@@ -170,5 +168,26 @@ public class DrawTest {
             i++;
         }
         assertThat(hasCorrectNumeralName).isTrue();
+    }
+
+    @Test
+    @DisplayName("Should form balanced teams with only three players")
+    void shouldFormBalancedTeamsThreePlayers(){
+        Player player1 = new Player("Player 1", (byte) 50, user);
+        Player player2 = new Player("Player 2", (byte) 10, user);
+        Player player3 = new Player("Player 3", (byte) 100, user);
+
+        List<Player> players1 = List.of(player1, player2, player3);
+        draw.perform(players1, 2);
+        List<Team> teams1 = draw.fetchTeams();
+        OptionalDouble max = teams1.stream().mapToDouble(Team::averageOverall).max();
+        OptionalDouble min = teams1.stream().mapToDouble(Team::averageOverall).min();
+
+        boolean hasAcceptableDifference = false;
+        if (max.isPresent() && min.isPresent()){
+            hasAcceptableDifference = (max.getAsDouble() - min.getAsDouble()) <= 15;
+        }
+
+        assertThat(hasAcceptableDifference).isTrue();
     }
 }
