@@ -150,4 +150,25 @@ public class DrawTest {
 
         assertThat(hasAcceptableDifference).isTrue();
     }
+
+    @Test
+    @DisplayName("Should form teams with a numeral name correctly")
+    void shouldAddTeamNumeralNameCorrectly(){
+        Player player1 = new Player("Player 1", (byte) 50, user);
+        Player player2 = new Player("Player 2", (byte) 50, user);
+        Player player3 = new Player("Player 3", (byte) 50, user);
+        Player player4 = new Player("Player 4", (byte) 50, user);
+        List<Player> players = List.of(player1, player2, player3, player4);
+
+        draw.perform(players, 2);
+        List<Team> teams = draw.fetchTeams();
+
+        boolean hasCorrectNumeralName = true;
+        int i=0;
+        while(hasCorrectNumeralName && i < teams.size()){
+            hasCorrectNumeralName = (teams.get(i).getNumeralName().equals(String.valueOf(i+1)));
+            i++;
+        }
+        assertThat(hasCorrectNumeralName).isTrue();
+    }
 }
