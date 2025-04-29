@@ -47,15 +47,9 @@ public class Draw {
 
         boolean hasAcceptableDifference = false;
         while(!hasAcceptableDifference){
-            for(Team t: teams){
-                t.removeAllPlayers();
-            }
-            Collections.shuffle(players);
+            clearTeamPlayerList();
+            shuffleAndDistributePlayers(players, numberOfTeams);
 
-            for(int i=0; i < players.size(); i++){
-                int indexTeam = i % numberOfTeams;
-                teams.get(indexTeam).addPlayer(players.get(i));
-            }
             OptionalDouble max = teams.stream().mapToDouble(Team::averageOverall).max();
             OptionalDouble min = teams.stream().mapToDouble(Team::averageOverall).min();
             if (max.isPresent() && min.isPresent()){
@@ -63,6 +57,21 @@ public class Draw {
             }
         }
 
+    }
+
+    private void clearTeamPlayerList() {
+        for(Team t: teams){
+            t.removeAllPlayers();
+        }
+    }
+
+    private void shuffleAndDistributePlayers(List<Player> players, int numberOfTeams) {
+        Collections.shuffle(players);
+
+        for(int i = 0; i < players.size(); i++) {
+            int indexTeam = i % numberOfTeams;
+            teams.get(indexTeam).addPlayer(players.get(i));
+        }
     }
 
     private void clearAndFillTeamsList(int numberOfTeams) {
