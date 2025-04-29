@@ -43,11 +43,7 @@ public class Draw {
 
     public void perform(List<Player> players, int numberOfTeams) {
         performInputValidator(players, numberOfTeams);
-        teams.clear();
-
-        for(int i=0; i < numberOfTeams; i++){
-            teams.add(new Team(String.valueOf(i+1)));
-        }
+        clearAndFillTeamsList(numberOfTeams);
 
         boolean hasAcceptableDifference = false;
         while(!hasAcceptableDifference){
@@ -67,6 +63,14 @@ public class Draw {
             }
         }
 
+    }
+
+    private void clearAndFillTeamsList(int numberOfTeams) {
+        teams.clear();
+
+        for(int i = 0; i < numberOfTeams; i++){
+            teams.add(new Team(String.valueOf(i+1)));
+        }
     }
 
     private static void performInputValidator(List<Player> players, int numberOfTeams) {
