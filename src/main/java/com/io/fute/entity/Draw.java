@@ -8,6 +8,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.OptionalDouble;
 
+import static com.io.fute.entity.DrawConstants.*;
+
 @Entity
 @Table
 public class Draw {
@@ -54,7 +56,7 @@ public class Draw {
     private boolean isBalanced() {
         OptionalDouble max = teams.stream().mapToDouble(Team::averageOverall).max();
         OptionalDouble min = teams.stream().mapToDouble(Team::averageOverall).min();
-        if (max.isPresent() && min.isPresent()) return (max.getAsDouble() - min.getAsDouble()) <= 15;
+        if (max.isPresent() && min.isPresent()) return (max.getAsDouble() - min.getAsDouble()) <= MAX_DIFFERENCE;
 
         return false;
     }
