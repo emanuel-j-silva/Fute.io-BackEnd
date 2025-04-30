@@ -5,12 +5,12 @@ import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 
 import java.util.*;
 
 
 import static org.assertj.core.api.Assertions.*;
+import static com.io.fute.entity.DrawConstants.*;
 public class DrawTest {
 
     private final AppUser user = new AppUser();
@@ -186,7 +186,7 @@ public class DrawTest {
 
         boolean hasAcceptableDifference = false;
         if (max.isPresent() && min.isPresent()){
-            hasAcceptableDifference = (max.getAsDouble() - min.getAsDouble()) <= 15;
+            hasAcceptableDifference = (max.getAsDouble() - min.getAsDouble()) <= MAX_DIFFERENCE;
         }
 
         assertThat(hasAcceptableDifference).isTrue();
