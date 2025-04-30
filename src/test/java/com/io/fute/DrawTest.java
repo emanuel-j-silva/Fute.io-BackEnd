@@ -180,9 +180,9 @@ public class DrawTest {
         List<Player> players = new ArrayList<>(List.of(player1, player2, player3));
         draw.perform(players, 2);
 
-        List<Team> teams1 = draw.fetchTeams();
-        OptionalDouble max = teams1.stream().mapToDouble(Team::averageOverall).max();
-        OptionalDouble min = teams1.stream().mapToDouble(Team::averageOverall).min();
+        List<Team> teams = draw.fetchTeams();
+        OptionalDouble max = teams.stream().mapToDouble(Team::averageOverall).max();
+        OptionalDouble min = teams.stream().mapToDouble(Team::averageOverall).min();
 
         boolean hasAcceptableDifference = false;
         if (max.isPresent() && min.isPresent()){
@@ -190,5 +190,26 @@ public class DrawTest {
         }
 
         assertThat(hasAcceptableDifference).isTrue();
+    }
+
+    @Test
+    @DisplayName("Should form the best possible draw when it is not possible to reach the threshold")
+    void shouldFormBestPossibleOverThreshold(){
+        Player player1 = new Player("Player 1", (byte) 10, user);
+        Player player2 = new Player("Player 2", (byte) 10, user);
+        Player player3 = new Player("Player 3", (byte) 100, user);
+        List<Player> players = new ArrayList<>(List.of(player1, player2, player3));
+
+        draw.perform(players, 2);
+        List<Team> teams = draw.fetchTeams();
+        OptionalDouble max = teams.stream().mapToDouble(Team::averageOverall).max();
+        OptionalDouble min = teams.stream().mapToDouble(Team::averageOverall).min();
+
+        double maxAvgDifference = 0;
+        if (max.isPresent() && min.isPresent()){
+            maxAvgDifference = (max.getAsDouble() - min.getAsDouble());
+        }
+
+        assertThat(maxAvgDifference).isEqualTo(45);
     }
 }
