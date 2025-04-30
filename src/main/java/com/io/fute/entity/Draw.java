@@ -3,10 +3,7 @@ package com.io.fute.entity;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.OptionalDouble;
+import java.util.*;
 
 import static com.io.fute.entity.DrawConstants.*;
 
@@ -45,43 +42,51 @@ public class Draw {
 
     public void perform(List<Player> players, int numberOfTeams) {
         performInputValidator(players, numberOfTeams);
-        clearAndFillTeamsList(numberOfTeams);
-
-        do{
-            clearTeamPlayerList();
-            shuffleAndDistributePlayers(players, numberOfTeams);
-        }while(!isBalanced());
-    }
-
-    private boolean isBalanced() {
-        OptionalDouble max = teams.stream().mapToDouble(Team::averageOverall).max();
-        OptionalDouble min = teams.stream().mapToDouble(Team::averageOverall).min();
-        if (max.isPresent() && min.isPresent()) return (max.getAsDouble() - min.getAsDouble()) <= MAX_DIFFERENCE;
-
-        return false;
-    }
-
-    private void clearTeamPlayerList() {
-        for(Team t: teams){
-            t.removeAllPlayers();
-        }
-    }
-
-    private void shuffleAndDistributePlayers(List<Player> players, int numberOfTeams) {
-        Collections.shuffle(players);
-
-        for(int i = 0; i < players.size(); i++) {
-            int indexTeam = i % numberOfTeams;
-            teams.get(indexTeam).addPlayer(players.get(i));
-        }
-    }
-
-    private void clearAndFillTeamsList(int numberOfTeams) {
         teams.clear();
 
-        for(int i = 0; i < numberOfTeams; i++){
-            teams.add(new Team(String.valueOf(i+1)));
+        int i=0;
+        List<Team> bestTeams = new ArrayList<>();
+        List<Team> currentTeams;
+        boolean firstAttempt = true;
+        do{
+            currentTeams = shuffleAndDistributePlayers(players, numberOfTeams);
+            if (firstAttempt){
+                bestTeams = currentTeams;
+                firstAttempt = false;
+            }
+
+            if (calcMaxAverageDiff(currentTeams) < calcMaxAverageDiff(bestTeams)){
+                bestTeams = currentTeams;
+            }
+            this.teams = bestTeams;
+
+            i++;
+        }while(!isBalanced(currentTeams) && i < MAX_ATTEMPTS);
+    }
+
+    private double calcMaxAverageDiff(List<Team> teams){
+        DoubleSummaryStatistics stats = teams.stream().mapToDouble(Team::averageOverall).summaryStatistics();
+        if (stats.getCount() == 0) throw new IllegalStateException("Não há times suficientes para calcular diferença");
+        return (stats.getMax() - stats.getMin());
+    }
+
+    private boolean isBalanced(List<Team> teams) {
+        return calcMaxAverageDiff(teams) <= MAX_DIFFERENCE;
+    }
+
+    private List<Team> shuffleAndDistributePlayers(List<Player> players, int numberOfTeams) {
+        Collections.shuffle(players);
+
+        List<Team> teamsToSort = new ArrayList<>();
+        for(int i=0; i < numberOfTeams; i++){
+            teamsToSort.add(new Team(String.valueOf(i+1)));
         }
+        for(int i = 0; i < players.size(); i++) {
+            int indexTeam = i % numberOfTeams;
+            teamsToSort.get(indexTeam).addPlayer(players.get(i));
+        }
+
+        return teamsToSort;
     }
 
     private static void performInputValidator(List<Player> players, int numberOfTeams) {
