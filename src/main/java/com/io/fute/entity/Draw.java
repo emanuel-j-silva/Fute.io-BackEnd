@@ -45,18 +45,18 @@ public class Draw {
         performInputValidator(players, numberOfTeams);
         clearAndFillTeamsList(numberOfTeams);
 
-        boolean hasAcceptableDifference = false;
-        while(!hasAcceptableDifference){
+        do{
             clearTeamPlayerList();
             shuffleAndDistributePlayers(players, numberOfTeams);
+        }while(!isBalanced());
+    }
 
-            OptionalDouble max = teams.stream().mapToDouble(Team::averageOverall).max();
-            OptionalDouble min = teams.stream().mapToDouble(Team::averageOverall).min();
-            if (max.isPresent() && min.isPresent()){
-                hasAcceptableDifference = (max.getAsDouble() - min.getAsDouble()) <= 15;
-            }
-        }
+    private boolean isBalanced() {
+        OptionalDouble max = teams.stream().mapToDouble(Team::averageOverall).max();
+        OptionalDouble min = teams.stream().mapToDouble(Team::averageOverall).min();
+        if (max.isPresent() && min.isPresent()) return (max.getAsDouble() - min.getAsDouble()) <= 15;
 
+        return false;
     }
 
     private void clearTeamPlayerList() {
