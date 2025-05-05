@@ -31,6 +31,10 @@ public class Team {
         return numeralName;
     }
 
+    public List<Player> getPlayers() {
+        return players;
+    }
+
     public int numberOfPlayers(){
         return players.size();
     }

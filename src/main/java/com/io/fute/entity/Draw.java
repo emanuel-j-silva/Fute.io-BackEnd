@@ -20,7 +20,8 @@ public class Draw {
     @JoinColumn(name = "group_id", nullable = false)
     private Group group;
 
-    @OneToMany(mappedBy = "draw", orphanRemoval = true)
+    @OneToMany(orphanRemoval = true, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "draw_id")
     private List<Team> teams;
 
     public Draw(){
@@ -38,6 +39,10 @@ public class Draw {
     public List<Team> fetchTeams(){
         if (teams.isEmpty()) throw new IllegalStateException("O sorteio ainda não foi realizado.");
         return teams;
+    }
+
+    public LocalDateTime getDate() {
+        return date;
     }
 
     public void perform(List<Player> players, int numberOfTeams) {
