@@ -4,6 +4,7 @@ import com.io.fute.dto.draw.DrawInfo;
 import com.io.fute.dto.draw.DrawRequest;
 import com.io.fute.dto.group.GroupInfo;
 import com.io.fute.dto.group.GroupRequest;
+import com.io.fute.dto.player.AssociatePlayersRequest;
 import com.io.fute.dto.response.ResponseDTO;
 import com.io.fute.service.DrawService;
 import com.io.fute.service.GroupService;
@@ -44,13 +45,13 @@ public class GroupController {
     }
 
     @PostMapping("/{groupId}/players")
-    public ResponseEntity<ResponseDTO> associatePlayerToGroup(
-            @PathVariable(value = "groupId") UUID groupId, @RequestParam(name = "player") Long playerId,
+    public ResponseEntity<ResponseDTO> associatePlayersToGroup(
+            @PathVariable(value = "groupId") UUID groupId, @RequestBody @Valid AssociatePlayersRequest request,
             @AuthenticationPrincipal(expression = "id") UUID userId){
 
-        groupService.addPlayerToGroup(groupId, playerId, userId);
+        groupService.addPlayersToGroup(groupId, request, userId);
         return ResponseEntity.status(HttpStatus.OK)
-                .body(new ResponseDTO("Jogador adicionado ao grupo com sucesso"));
+                .body(new ResponseDTO("Jogadores adicionados ao grupo com sucesso"));
     }
 
     @PostMapping("/{groupId}/draws")

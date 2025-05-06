@@ -2,6 +2,7 @@ package com.io.fute.service;
 
 import com.io.fute.dto.group.GroupInfo;
 import com.io.fute.dto.group.GroupRequest;
+import com.io.fute.dto.player.AssociatePlayersRequest;
 import com.io.fute.entity.AppUser;
 import com.io.fute.entity.Group;
 import com.io.fute.entity.Player;
@@ -45,15 +46,13 @@ public class GroupService {
                 .toList();
     }
 
-    public void addPlayerToGroup(UUID groupId, Long playerId, UUID userId){
+    public void addPlayersToGroup(UUID groupId, AssociatePlayersRequest requestPlayers, UUID userId){
         Group group = fetchAndValidateGroup(groupId, userId);
-        Player player = fetchAndValidatePlayer(playerId, userId);
-
-        if (group.getPlayers().contains(player)){
-            throw new IllegalArgumentException("Esse jogador já pertence a este grupo");
+        for(Long playerId:requestPlayers.playerIds()){
+            Player player = fetchAndValidatePlayer(playerId, userId, group);
+            group.addPlayer(player);
         }
 
-        group.addPlayer(player);
         groupRepository.save(group);
     }
 
@@ -67,12 +66,16 @@ public class GroupService {
 
         return group;
     }
-    private Player fetchAndValidatePlayer(Long playerId, UUID userId){
+    private Player fetchAndValidatePlayer(Long playerId, UUID userId, Group group){
         Player player = playerRepository.findById(playerId)
                 .orElseThrow(()-> new EntityNotFoundException("Jogador não encontrado."));
 
         if (!player.getUser().getId().equals(userId)){
             throw new IllegalArgumentException("Você não tem permissão para acessar esse jogador");
+        }
+
+        if (group.getPlayers().contains(player)){
+            throw new IllegalArgumentException("Esse jogador já pertence a este grupo");
         }
 
         return player;
