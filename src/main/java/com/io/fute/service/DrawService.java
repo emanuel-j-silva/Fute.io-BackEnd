@@ -1,6 +1,7 @@
 package com.io.fute.service;
 
 import com.io.fute.dto.draw.DrawInfo;
+import com.io.fute.dto.draw.DrawRequest;
 import com.io.fute.dto.player.PlayerInfo;
 import com.io.fute.dto.team.TeamInfo;
 import com.io.fute.entity.*;
@@ -32,15 +33,15 @@ public class DrawService {
     }
 
     @Transactional
-    public DrawInfo performDraw(UUID userId, UUID groupId, List<Player> players, int numberOfTeams){
-        if (userRepository.findById(userId).isEmpty()) throw new EntityNotFoundException("Usuário não encontrado.");
+    public DrawInfo performDraw(DrawRequest request){
+        if (userRepository.findById(request.userId()).isEmpty()) throw new EntityNotFoundException("Usuário não encontrado.");
 
-        Group group = validateAndFetchGroup(userId, groupId);
+        Group group = validateAndFetchGroup(request.userId(), request.groupId());
 
-        validatePlayers(userId, players, group);
+        List<Player> players = validateAndFetchPlayers(request.userId(), request.playerIds(), group);
 
         Draw draw = new Draw(group);
-        draw.perform(players, numberOfTeams);
+        draw.perform(players, request.numberOfTeams());
         drawRepository.save(draw);
 
         return mapToDrawInfo(draw);
@@ -59,11 +60,12 @@ public class DrawService {
         return new DrawInfo(draw.getDate(), teamInfoList);
     }
 
-    private void validatePlayers(UUID userId, List<Player> players, Group group) {
-        for (Player player: players){
-            if (playerRepository.findById(player.getId()).isEmpty()){
-                throw new EntityNotFoundException("Jogador não encontrado");
-            }
+    private List<Player> validateAndFetchPlayers(UUID userId, List<Long> playerIds, Group group) {
+        List<Player> players = new ArrayList<>();
+        for (Long playerId: playerIds){
+            Player player = playerRepository.findById(playerId)
+                    .orElseThrow(()-> new EntityNotFoundException("Jogador não encontrado"));
+
             if (!player.getUser().getId().equals(userId)){
                 throw new IllegalArgumentException("Este jogador não pode ser adicionado");
             }
@@ -71,7 +73,9 @@ public class DrawService {
                 throw new IllegalArgumentException("Este jogador não pertence ao grupo");
             }
 
+            players.add(player);
         }
+        return players;
     }
 
     private Group validateAndFetchGroup(UUID userId, UUID groupId) {
