@@ -1,10 +1,7 @@
 package com.io.fute.dto.player;
 
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.PositiveOrZero;
+import jakarta.validation.constraints.*;
 
-public record PlayerInfo(@NotBlank String name,
+public record PlayerInfo(@NotNull Long id, @NotBlank String name,
                          @PositiveOrZero @Min(1) @Max(100) byte overall, String urlPhoto) {
 }

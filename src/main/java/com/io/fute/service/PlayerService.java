@@ -43,7 +43,8 @@ public class PlayerService {
 
     public List<PlayerInfo> fetchAllPlayersByUser(UUID userId){
         return playerRepository.findAllByUserId(userId).stream()
-                .map(player -> new PlayerInfo(player.getName(),player.getOverall(), player.getUrlPhoto()))
-                .toList();
+                .map(player -> new PlayerInfo(
+                        player.getId(), player.getName(),player.getOverall(), player.getUrlPhoto())
+                ).toList();
     }
 }

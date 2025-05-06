@@ -52,7 +52,7 @@ public class DrawService {
 
         for (Team team: draw.fetchTeams()){
             List<PlayerInfo> playerInfoList = team.getPlayers().stream()
-                    .map(p -> new PlayerInfo(p.getName(), p.getOverall(), p.getUrlPhoto())).toList();
+                    .map(p -> new PlayerInfo(p.getId(), p.getName(), p.getOverall(), p.getUrlPhoto())).toList();
 
             teamInfoList.add(new TeamInfo(team.getNumeralName(),playerInfoList));
         }
