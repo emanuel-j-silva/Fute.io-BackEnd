@@ -34,6 +34,10 @@ public class Group {
         this.user = user;
     }
 
+    public UUID getId() {
+        return id;
+    }
+
     public String getName() {
         return name;
     }

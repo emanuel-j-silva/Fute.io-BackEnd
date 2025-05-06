@@ -41,7 +41,7 @@ public class GroupService {
 
     public List<GroupInfo> fetchAllGroupsByUser(UUID userId){
         return groupRepository.findAllByUserId(userId).stream()
-                .map(group -> new GroupInfo(group.getName(),group.getLocation(), group.getNumberOfPlayers()))
+                .map(group -> new GroupInfo(group.getId(), group.getName(),group.getLocation(), group.getNumberOfPlayers()))
                 .toList();
     }
 
