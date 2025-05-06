@@ -33,12 +33,12 @@ public class DrawService {
     }
 
     @Transactional
-    public DrawInfo performDraw(DrawRequest request){
-        if (userRepository.findById(request.userId()).isEmpty()) throw new EntityNotFoundException("Usuário não encontrado.");
+    public DrawInfo performDraw(UUID userId, UUID groupId, DrawRequest request){
+        if (userRepository.findById(userId).isEmpty()) throw new EntityNotFoundException("Usuário não encontrado.");
 
-        Group group = validateAndFetchGroup(request.userId(), request.groupId());
+        Group group = validateAndFetchGroup(userId, groupId);
 
-        List<Player> players = validateAndFetchPlayers(request.userId(), request.playerIds(), group);
+        List<Player> players = validateAndFetchPlayers(userId, request.playerIds(), group);
 
         Draw draw = new Draw(group);
         draw.perform(players, request.numberOfTeams());
