@@ -35,14 +35,32 @@ public class DrawService {
     public DrawInfo performDraw(UUID userId, UUID groupId, List<Player> players, int numberOfTeams){
         if (userRepository.findById(userId).isEmpty()) throw new EntityNotFoundException("Usuário não encontrado.");
 
-        Group group  = groupRepository.findById(groupId)
-                .orElseThrow(()-> new EntityNotFoundException("Grupo não encontrado."));
+        Group group = validateAndFetchGroup(userId, groupId);
 
-        if (!group.getUser().getId().equals(userId)){
-            throw new IllegalArgumentException("Você não tem permissão para modificar esse grupo");
+        validatePlayers(userId, players, group);
+
+        Draw draw = new Draw(group);
+        draw.perform(players, numberOfTeams);
+        drawRepository.save(draw);
+
+        return mapToDrawInfo(draw);
+    }
+
+    private static DrawInfo mapToDrawInfo(Draw draw) {
+        List<TeamInfo> teamInfoList = new ArrayList<>();
+
+        for (Team team: draw.fetchTeams()){
+            List<PlayerInfo> playerInfoList = team.getPlayers().stream()
+                    .map(p -> new PlayerInfo(p.getName(), p.getOverall(), p.getUrlPhoto())).toList();
+
+            teamInfoList.add(new TeamInfo(team.getNumeralName(),playerInfoList));
         }
 
-        for (Player player:players){
+        return new DrawInfo(draw.getDate(), teamInfoList);
+    }
+
+    private void validatePlayers(UUID userId, List<Player> players, Group group) {
+        for (Player player: players){
             if (playerRepository.findById(player.getId()).isEmpty()){
                 throw new EntityNotFoundException("Jogador não encontrado");
             }
@@ -54,20 +72,15 @@ public class DrawService {
             }
 
         }
+    }
 
-        Draw draw = new Draw(group);
-        draw.perform(players, numberOfTeams);
-        drawRepository.save(draw);
+    private Group validateAndFetchGroup(UUID userId, UUID groupId) {
+        Group group  = groupRepository.findById(groupId)
+                .orElseThrow(()-> new EntityNotFoundException("Grupo não encontrado."));
 
-        List<TeamInfo> teamInfoList = new ArrayList<>();
-
-        for (Team t:draw.fetchTeams()){
-            List<PlayerInfo> playerInfoList = t.getPlayers().stream()
-                    .map(p -> new PlayerInfo(p.getName(), p.getOverall(), p.getUrlPhoto())).toList();
-
-            teamInfoList.add(new TeamInfo(t.getNumeralName(),playerInfoList));
+        if (!group.getUser().getId().equals(userId)){
+            throw new IllegalArgumentException("Você não tem permissão para modificar esse grupo");
         }
-
-        return new DrawInfo(draw.getDate(), teamInfoList);
+        return group;
     }
 }
