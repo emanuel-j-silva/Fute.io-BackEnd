@@ -1,8 +1,11 @@
 package com.io.fute.controller;
 
+import com.io.fute.dto.draw.DrawInfo;
+import com.io.fute.dto.draw.DrawRequest;
 import com.io.fute.dto.group.GroupInfo;
 import com.io.fute.dto.group.GroupRequest;
 import com.io.fute.dto.response.ResponseDTO;
+import com.io.fute.service.DrawService;
 import com.io.fute.service.GroupService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +21,12 @@ import java.util.UUID;
 @RequestMapping("/groups")
 public class GroupController {
     private final GroupService groupService;
+    private final DrawService drawService;
 
     @Autowired
-    public GroupController(GroupService groupService) {
+    public GroupController(GroupService groupService, DrawService drawService) {
         this.groupService = groupService;
+        this.drawService = drawService;
     }
 
     @PostMapping
@@ -38,7 +43,7 @@ public class GroupController {
         return ResponseEntity.status(HttpStatus.OK).body(groups);
     }
 
-    @PostMapping("/${groupId}/players")
+    @PostMapping("/{groupId}/players")
     public ResponseEntity<ResponseDTO> associatePlayerToGroup(
             @PathVariable(value = "groupId") UUID groupId, @RequestParam(name = "player") Long playerId,
             @AuthenticationPrincipal(expression = "id") UUID userId){
@@ -46,5 +51,14 @@ public class GroupController {
         groupService.addPlayerToGroup(groupId, playerId, userId);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new ResponseDTO("Jogador adicionado ao grupo com sucesso"));
+    }
+
+    @PostMapping("/{groupId}/draws")
+    public ResponseEntity<DrawInfo> addDraw(
+            @PathVariable(value = "groupId") UUID groupId, @RequestBody @Valid DrawRequest request,
+            @AuthenticationPrincipal(expression = "id") UUID userId){
+
+        DrawInfo drawInfo = drawService.performDraw(userId, groupId, request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(drawInfo);
     }
 }
