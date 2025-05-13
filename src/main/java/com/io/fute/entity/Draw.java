@@ -49,6 +49,10 @@ public class Draw {
         performInputValidator(players, numberOfTeams);
         teams.clear();
 
+        generateBalancedTeams(players, numberOfTeams);
+    }
+
+    private void generateBalancedTeams(List<Player> players, int numberOfTeams) {
         int i=0;
         List<Team> bestTeams = new ArrayList<>();
         List<Team> currentTeams;
