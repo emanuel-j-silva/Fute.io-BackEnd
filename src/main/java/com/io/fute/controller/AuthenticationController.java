@@ -49,9 +49,8 @@ public class AuthenticationController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<AppUser> register(@RequestBody @Valid RegisterRequest request){
-        AppUser savedUser = registerUser.register(request);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
+    public ResponseEntity<ResponseDTO> register(@RequestBody @Valid RegisterRequest request){
+        registerUser.register(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseDTO("Conta criada com sucesso!"));
     }
 }
