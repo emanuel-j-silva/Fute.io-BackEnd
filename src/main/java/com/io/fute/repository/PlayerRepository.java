@@ -12,5 +12,6 @@ import java.util.UUID;
 public interface PlayerRepository extends JpaRepository<Player, Long> {
     boolean existsByNameAndUser(String name, AppUser user);
     List<Player> findAllByUserId(UUID userId);
+    List<Player> findTop10ByUserIdOrderByOverallDesc(UUID userId);
 
 }

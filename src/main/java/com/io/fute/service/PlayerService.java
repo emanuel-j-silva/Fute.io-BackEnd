@@ -47,4 +47,11 @@ public class PlayerService {
                         player.getId(), player.getName(),player.getOverall(), player.getUrlPhoto())
                 ).toList();
     }
+
+    public List<PlayerInfo> fetchTopPlayersByUser(UUID userId){
+        return playerRepository.findTop10ByUserIdOrderByOverallDesc(userId).stream()
+                .map(player -> new PlayerInfo(player.getId(), player.getName(),
+                        player.getOverall(), player.getUrlPhoto()))
+                .toList();
+    }
 }

@@ -33,8 +33,14 @@ public class PlayerController {
     }
 
     @GetMapping
-    public ResponseEntity<List<PlayerInfo>> fetchPlayersByUser(@AuthenticationPrincipal(expression = "id") UUID userId){
+    public ResponseEntity<List<PlayerInfo>> fetchAllPlayersByUser(@AuthenticationPrincipal(expression = "id") UUID userId){
         List<PlayerInfo> players = playerService.fetchAllPlayersByUser(userId);
+        return ResponseEntity.status(HttpStatus.OK).body(players);
+    }
+
+    @GetMapping("/top10")
+    public ResponseEntity<List<PlayerInfo>> fetchTopPlayersByUser(@AuthenticationPrincipal(expression = "id") UUID userId){
+        List<PlayerInfo> players = playerService.fetchTopPlayersByUser(userId);
         return ResponseEntity.status(HttpStatus.OK).body(players);
     }
 }
