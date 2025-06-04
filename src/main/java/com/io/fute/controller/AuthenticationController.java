@@ -6,7 +6,7 @@ import com.io.fute.dto.auth.TokenDTO;
 import com.io.fute.dto.response.ResponseDTO;
 import com.io.fute.entity.AppUser;
 import com.io.fute.security.TokenService;
-import com.io.fute.service.RegisterUserService;
+import com.io.fute.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,10 +24,10 @@ public class AuthenticationController {
 
     private final TokenService tokenService;
     private final AuthenticationManager authenticationManager;
-    private final RegisterUserService registerUser;
+    private final UserService registerUser;
 
     @Autowired
-    public AuthenticationController(TokenService tokenService, AuthenticationManager authenticationManager, RegisterUserService registerUser) {
+    public AuthenticationController(TokenService tokenService, AuthenticationManager authenticationManager, UserService registerUser) {
         this.tokenService = tokenService;
         this.authenticationManager = authenticationManager;
         this.registerUser = registerUser;

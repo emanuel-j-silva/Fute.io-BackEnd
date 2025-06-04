@@ -52,6 +52,10 @@ public class AppUser implements UserDetails {
         return id;
     }
 
+    public String getName() {
+        return name;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("ROLE_USER"));

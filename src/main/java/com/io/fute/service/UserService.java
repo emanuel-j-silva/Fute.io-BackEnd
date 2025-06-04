@@ -1,19 +1,23 @@
 package com.io.fute.service;
 
 import com.io.fute.dto.auth.RegisterRequest;
+import com.io.fute.dto.user.UserInfo;
 import com.io.fute.entity.AppUser;
 import com.io.fute.repository.AppUserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
-public class RegisterUserService{
+public class UserService {
     private final AppUserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
-    public RegisterUserService(AppUserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
+    public UserService(AppUserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
@@ -35,5 +39,12 @@ public class RegisterUserService{
                 request.email(), passwordEncoder.encode(request.password()));
 
         return userRepository.save(user);
+    }
+
+    public UserInfo fetchUserInfo(UUID userId){
+        AppUser user = userRepository.findById(userId)
+                .orElseThrow(()-> new EntityNotFoundException("Usuário não encontrado."));
+
+        return new UserInfo(user.getName());
     }
 }
