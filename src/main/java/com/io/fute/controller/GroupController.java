@@ -5,6 +5,7 @@ import com.io.fute.dto.draw.DrawRequest;
 import com.io.fute.dto.group.GroupInfo;
 import com.io.fute.dto.group.GroupRequest;
 import com.io.fute.dto.player.AssociatePlayersRequest;
+import com.io.fute.dto.player.PlayerInfo;
 import com.io.fute.dto.response.ResponseDTO;
 import com.io.fute.service.DrawService;
 import com.io.fute.service.GroupService;
@@ -42,6 +43,14 @@ public class GroupController {
     public ResponseEntity<List<GroupInfo>> fetchGroupsByUser(@AuthenticationPrincipal(expression = "id") UUID userId){
         List<GroupInfo> groups = groupService.fetchAllGroupsByUser(userId);
         return ResponseEntity.status(HttpStatus.OK).body(groups);
+    }
+
+    @GetMapping("/{groupId}/players")
+    public ResponseEntity<List<PlayerInfo>> fetchPlayersByGroup(
+            @PathVariable(value = "groupId")UUID groupId,
+            @AuthenticationPrincipal(expression = "id") UUID userId){
+
+        return ResponseEntity.status(HttpStatus.OK).body(groupService.fetchAllPlayersByGroup(groupId,userId));
     }
 
     @PostMapping("/{groupId}/players")

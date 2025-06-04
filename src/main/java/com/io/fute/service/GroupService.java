@@ -3,6 +3,7 @@ package com.io.fute.service;
 import com.io.fute.dto.group.GroupInfo;
 import com.io.fute.dto.group.GroupRequest;
 import com.io.fute.dto.player.AssociatePlayersRequest;
+import com.io.fute.dto.player.PlayerInfo;
 import com.io.fute.entity.AppUser;
 import com.io.fute.entity.Group;
 import com.io.fute.entity.Player;
@@ -13,6 +14,7 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
@@ -43,6 +45,17 @@ public class GroupService {
     public List<GroupInfo> fetchAllGroupsByUser(UUID userId){
         return groupRepository.findAllByUserId(userId).stream()
                 .map(group -> new GroupInfo(group.getId(), group.getName(),group.getLocation(), group.getNumberOfPlayers()))
+                .toList();
+    }
+
+    public List<PlayerInfo> fetchAllPlayersByGroup(UUID groupId, UUID userId){
+        Group group = fetchAndValidateGroup(groupId, userId);
+
+        return group.getPlayers()
+                .stream()
+                .sorted(Comparator.comparingInt(Player::getOverall).reversed())
+                .map(player -> new PlayerInfo(player.getId(), player.getName(),
+                        player.getOverall(), player.getUrlPhoto()))
                 .toList();
     }
 
