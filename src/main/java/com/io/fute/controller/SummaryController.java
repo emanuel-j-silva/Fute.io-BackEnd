@@ -16,7 +16,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/summary")
 public class SummaryController {
-    private SummaryService summaryService;
+    private final SummaryService summaryService;
 
     @Autowired
     public SummaryController(SummaryService summaryService) {
