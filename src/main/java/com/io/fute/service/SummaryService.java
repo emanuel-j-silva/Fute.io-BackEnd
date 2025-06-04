@@ -28,7 +28,7 @@ public class SummaryService {
 
         Draw lastDraw = optionalLastDraw.get();
         return new SummaryInfo(lastDraw.getDate()
-                .format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
+                .format(DateTimeFormatter.ofPattern("dd/MM/yy")),
                 lastDraw.getGroupName(), totalDraws);
     }
 }
