@@ -45,6 +45,10 @@ public class Draw {
         return date;
     }
 
+    public String getGroupName(){
+        return this.group.getName();
+    }
+
     public void perform(List<Player> players, int numberOfTeams) {
         performInputValidator(players, numberOfTeams);
         teams.clear();
