@@ -63,6 +63,15 @@ public class GroupController {
                 .body(new ResponseDTO("Jogadores adicionados ao grupo com sucesso"));
     }
 
+    @GetMapping("/{groupId}/players/not-in")
+    public ResponseEntity<List<PlayerInfo>> fetchPlayersOutsideGroup(
+            @PathVariable(value = "groupId") UUID groupId,
+            @AuthenticationPrincipal(expression = "id") UUID userId
+    ){
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(groupService.fetchPlayersNotInGroup(groupId, userId));
+    }
+
     @PostMapping("/{groupId}/draws")
     public ResponseEntity<DrawInfo> addDraw(
             @PathVariable(value = "groupId") UUID groupId, @RequestBody @Valid DrawRequest request,

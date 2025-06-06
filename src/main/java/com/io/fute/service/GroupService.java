@@ -59,6 +59,19 @@ public class GroupService {
                 .toList();
     }
 
+    public List<PlayerInfo> fetchPlayersNotInGroup(UUID groupId, UUID userId){
+        Group group = fetchAndValidateGroup(groupId, userId);
+
+        var players = playerRepository.findAllByUserIdOrderByOverallDesc(userId);
+
+        return players.stream().filter(player ->
+                !group.getPlayers().contains(player))
+                .map(player -> new PlayerInfo(player.getId(), player.getName(),
+                        player.getOverall(), player.getUrlPhoto()))
+                .toList();
+
+    }
+
     public void addPlayersToGroup(UUID groupId, AssociatePlayersRequest requestPlayers, UUID userId){
         Group group = fetchAndValidateGroup(groupId, userId);
         for(Long playerId:requestPlayers.playerIds()){
