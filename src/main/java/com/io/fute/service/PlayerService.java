@@ -3,8 +3,10 @@ package com.io.fute.service;
 import com.io.fute.dto.player.PlayerInfo;
 import com.io.fute.dto.player.PlayerRequest;
 import com.io.fute.entity.AppUser;
+import com.io.fute.entity.Group;
 import com.io.fute.entity.Player;
 import com.io.fute.repository.AppUserRepository;
+import com.io.fute.repository.GroupRepository;
 import com.io.fute.repository.PlayerRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +19,13 @@ import java.util.UUID;
 public class PlayerService {
     private final PlayerRepository playerRepository;
     private final AppUserRepository userRepository;
+    private final GroupRepository groupRepository;
 
     @Autowired
-    public PlayerService(PlayerRepository playerRepository, AppUserRepository userRepository) {
+    public PlayerService(PlayerRepository playerRepository, AppUserRepository userRepository, GroupRepository groupRepository) {
         this.playerRepository = playerRepository;
         this.userRepository = userRepository;
+        this.groupRepository = groupRepository;
     }
 
     public void createPlayer(PlayerRequest playerRequest, UUID userID){
@@ -53,5 +57,24 @@ public class PlayerService {
                 .map(player -> new PlayerInfo(player.getId(), player.getName(),
                         player.getOverall(), player.getUrlPhoto()))
                 .toList();
+    }
+
+    public void removePlayer(Long playerId, UUID userId){
+        Player player = playerRepository.findById(playerId)
+                .orElseThrow(()-> new EntityNotFoundException("Jogador não encontrado"));
+
+        if (!player.getUser().getId().equals(userId)){
+            throw new IllegalArgumentException("Você não tem permissão para acessar esse jogador");
+        }
+
+        List<Group> userGroups = groupRepository.findAllByUserId(userId);
+        for(Group group: userGroups){
+            if(group.getPlayers().contains(player)){
+                group.removePlayer(player);
+                groupRepository.save(group);
+            }
+        }
+
+        playerRepository.delete(player);
     }
 }

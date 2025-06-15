@@ -38,6 +38,14 @@ public class PlayerController {
         return ResponseEntity.status(HttpStatus.OK).body(players);
     }
 
+    @DeleteMapping("/{playerId}")
+    public ResponseEntity<ResponseDTO> deletePlayer(@PathVariable(value = "playerId") Long playerId,
+                                                    @AuthenticationPrincipal(expression = "id")UUID userId){
+
+        playerService.removePlayer(playerId, userId);
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseDTO("Jogador deletado com sucesso!"));
+    }
+
     @GetMapping("/top10")
     public ResponseEntity<List<PlayerInfo>> fetchTopPlayersByUser(@AuthenticationPrincipal(expression = "id") UUID userId){
         List<PlayerInfo> players = playerService.fetchTopPlayersByUser(userId);
