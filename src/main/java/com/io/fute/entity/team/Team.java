@@ -1,5 +1,7 @@
-package com.io.fute.entity;
+package com.io.fute.entity.team;
 
+import com.io.fute.entity.player.Player;
+import com.io.fute.entity.player.PlayerHistory;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;

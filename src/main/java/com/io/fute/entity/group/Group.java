@@ -1,5 +1,7 @@
-package com.io.fute.entity;
+package com.io.fute.entity.group;
 
+import com.io.fute.entity.user.AppUser;
+import com.io.fute.entity.player.Player;
 import jakarta.persistence.*;
 
 import java.util.*;

@@ -1,6 +1,6 @@
 package com.io.fute.repository;
 
-import com.io.fute.entity.Draw;
+import com.io.fute.entity.draw.Draw;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

@@ -1,4 +1,4 @@
-package com.io.fute.entity;
+package com.io.fute.entity.player;
 
 import jakarta.persistence.*;
 

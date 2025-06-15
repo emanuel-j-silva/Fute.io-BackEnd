@@ -1,11 +1,14 @@
-package com.io.fute.entity;
+package com.io.fute.entity.draw;
 
+import com.io.fute.entity.team.Team;
+import com.io.fute.entity.group.Group;
+import com.io.fute.entity.player.Player;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 import java.util.*;
 
-import static com.io.fute.entity.DrawConstants.*;
+import static com.io.fute.entity.draw.DrawConstants.*;
 
 @Entity
 @Table

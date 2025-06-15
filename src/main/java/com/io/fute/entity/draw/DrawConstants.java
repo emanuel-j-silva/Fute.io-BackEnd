@@ -1,4 +1,4 @@
-package com.io.fute.entity;
+package com.io.fute.entity.draw;
 
 public class DrawConstants {
     public static final double MAX_DIFFERENCE = 15.0;

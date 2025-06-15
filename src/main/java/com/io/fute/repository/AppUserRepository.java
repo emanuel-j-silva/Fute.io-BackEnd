@@ -1,6 +1,6 @@
 package com.io.fute.repository;
 
-import com.io.fute.entity.AppUser;
+import com.io.fute.entity.user.AppUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -2,9 +2,9 @@ package com.io.fute.service;
 
 import com.io.fute.dto.player.PlayerInfo;
 import com.io.fute.dto.player.PlayerRequest;
-import com.io.fute.entity.AppUser;
-import com.io.fute.entity.Group;
-import com.io.fute.entity.Player;
+import com.io.fute.entity.user.AppUser;
+import com.io.fute.entity.group.Group;
+import com.io.fute.entity.player.Player;
 import com.io.fute.repository.AppUserRepository;
 import com.io.fute.repository.GroupRepository;
 import com.io.fute.repository.PlayerRepository;
