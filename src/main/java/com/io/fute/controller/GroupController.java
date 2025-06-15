@@ -63,6 +63,18 @@ public class GroupController {
                 .body(new ResponseDTO("Jogadores adicionados ao grupo com sucesso"));
     }
 
+    @DeleteMapping("/{groupId}/players/{playerId}")
+    public ResponseEntity<ResponseDTO> removePlayerOfSelectedGroup(
+            @PathVariable(value = "groupId") UUID groupId, @PathVariable(value = "playerId") Long playerId,
+            @AuthenticationPrincipal(expression = "id") UUID userId){
+
+        groupService.removePlayerFromGroup(groupId, playerId, userId);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new ResponseDTO("Jogador removido do grupo com sucesso!"));
+
+    }
+
+
     @GetMapping("/{groupId}/players/not-in")
     public ResponseEntity<List<PlayerInfo>> fetchPlayersOutsideGroup(
             @PathVariable(value = "groupId") UUID groupId,

@@ -63,6 +63,9 @@ public class Group {
     }
 
     public void removePlayer(Player player) {
+        if (!players.contains(player)){
+            throw new IllegalArgumentException("Esse jogador não pertence ao grupo.");
+        }
         players.remove(player);
     }
 

@@ -75,10 +75,22 @@ public class GroupService {
     public void addPlayersToGroup(UUID groupId, AssociatePlayersRequest requestPlayers, UUID userId){
         Group group = fetchAndValidateGroup(groupId, userId);
         for(Long playerId:requestPlayers.playerIds()){
-            Player player = fetchAndValidatePlayer(playerId, userId, group);
+            Player player = fetchAndValidatePlayer(playerId, userId);
+
+            if (group.getPlayers().contains(player)){
+                throw new IllegalArgumentException("Esse jogador já pertence a este grupo");
+            }
             group.addPlayer(player);
         }
 
+        groupRepository.save(group);
+    }
+
+    public void removePlayerFromGroup(UUID groupId, Long playerId, UUID userId){
+        Group group = fetchAndValidateGroup(groupId, userId);
+        Player player = fetchAndValidatePlayer(playerId, userId);
+
+        group.removePlayer(player);
         groupRepository.save(group);
     }
 
@@ -92,16 +104,12 @@ public class GroupService {
 
         return group;
     }
-    private Player fetchAndValidatePlayer(Long playerId, UUID userId, Group group){
+    private Player fetchAndValidatePlayer(Long playerId, UUID userId){
         Player player = playerRepository.findById(playerId)
                 .orElseThrow(()-> new EntityNotFoundException("Jogador não encontrado."));
 
         if (!player.getUser().getId().equals(userId)){
             throw new IllegalArgumentException("Você não tem permissão para acessar esse jogador");
-        }
-
-        if (group.getPlayers().contains(player)){
-            throw new IllegalArgumentException("Esse jogador já pertence a este grupo");
         }
 
         return player;
