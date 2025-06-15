@@ -1,6 +1,10 @@
 package com.io.fute;
 
-import com.io.fute.entity.*;
+import com.io.fute.entity.draw.Draw;
+import com.io.fute.entity.group.Group;
+import com.io.fute.entity.player.Player;
+import com.io.fute.entity.team.Team;
+import com.io.fute.entity.user.AppUser;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -10,7 +14,7 @@ import java.util.*;
 
 
 import static org.assertj.core.api.Assertions.*;
-import static com.io.fute.entity.DrawConstants.*;
+import static com.io.fute.entity.draw.DrawConstants.*;
 public class DrawTest {
 
     private final AppUser user = new AppUser();

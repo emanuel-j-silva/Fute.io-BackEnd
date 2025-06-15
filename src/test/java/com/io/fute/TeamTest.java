@@ -1,8 +1,8 @@
 package com.io.fute;
 
-import com.io.fute.entity.AppUser;
-import com.io.fute.entity.Player;
-import com.io.fute.entity.Team;
+import com.io.fute.entity.user.AppUser;
+import com.io.fute.entity.player.Player;
+import com.io.fute.entity.team.Team;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

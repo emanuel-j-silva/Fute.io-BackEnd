@@ -4,7 +4,7 @@ import com.io.fute.dto.auth.LoginRequest;
 import com.io.fute.dto.auth.RegisterRequest;
 import com.io.fute.dto.auth.TokenDTO;
 import com.io.fute.dto.response.ResponseDTO;
-import com.io.fute.entity.AppUser;
+import com.io.fute.entity.user.AppUser;
 import com.io.fute.security.TokenService;
 import com.io.fute.service.UserService;
 import jakarta.validation.Valid;

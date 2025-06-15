@@ -1,4 +1,4 @@
-package com.io.fute.entity;
+package com.io.fute.entity.user;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;

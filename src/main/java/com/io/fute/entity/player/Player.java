@@ -1,5 +1,6 @@
-package com.io.fute.entity;
+package com.io.fute.entity.player;
 
+import com.io.fute.entity.user.AppUser;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
