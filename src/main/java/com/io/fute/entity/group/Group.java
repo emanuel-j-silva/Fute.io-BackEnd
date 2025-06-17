@@ -71,6 +71,10 @@ public class Group {
         players.remove(player);
     }
 
+    public void removeAllPlayers(){
+        if (!players.isEmpty()) players.clear();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

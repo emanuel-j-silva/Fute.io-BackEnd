@@ -94,6 +94,13 @@ public class GroupService {
         groupRepository.save(group);
     }
 
+    public void deleteGroup(UUID groupId, UUID userId){
+        Group group = fetchAndValidateGroup(groupId, userId);
+
+        group.removeAllPlayers();
+        groupRepository.delete(group);
+    }
+
     private Group fetchAndValidateGroup(UUID groupId, UUID userId){
         Group group = groupRepository.findById(groupId)
                 .orElseThrow(()-> new EntityNotFoundException("Grupo não encontrado."));
