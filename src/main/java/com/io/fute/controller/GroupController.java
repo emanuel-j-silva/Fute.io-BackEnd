@@ -45,6 +45,15 @@ public class GroupController {
         return ResponseEntity.status(HttpStatus.OK).body(groups);
     }
 
+    @DeleteMapping("/{groupId}")
+    public ResponseEntity<ResponseDTO> deleteGroup(
+            @PathVariable(value = "groupId") UUID groupId,
+            @AuthenticationPrincipal(expression = "id") UUID userId){
+
+        groupService.deleteGroup(groupId, userId);
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseDTO("Grupo excluído com sucesso"));
+    }
+
     @GetMapping("/{groupId}/players")
     public ResponseEntity<List<PlayerInfo>> fetchPlayersByGroup(
             @PathVariable(value = "groupId")UUID groupId,
