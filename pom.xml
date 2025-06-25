@@ -11,6 +11,7 @@
 	<groupId>com.io</groupId>
 	<artifactId>fute</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
 	<name>fute.io</name>
 	<description>Project for Fute.io Server</description>
 	<url/>
@@ -27,7 +28,7 @@
 		<url/>
 	</scm>
 	<properties>
-		<java.version>21</java.version>
+		<java.version>17</java.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -122,6 +123,16 @@
 							<artifactId>lombok</artifactId>
 						</exclude>
 					</excludes>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>com.google.cloud.tools</groupId>
+				<artifactId>jib-maven-plugin</artifactId>
+				<version>3.3.2</version>
+				<configuration>
+					<to>
+						<image>emanueljsilva/${project.artifactId}:v1.0.0</image>
+					</to>
 				</configuration>
 			</plugin>
 		</plugins>
