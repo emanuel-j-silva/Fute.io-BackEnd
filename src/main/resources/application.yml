@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/futeio
-    username: user
-    password: 123
+    url: ${FUTE_DB_URL}
+    username: ${FUTE_DB_USER}
+    password: ${FUTE_DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
 
   jpa:
